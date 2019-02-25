@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">My Own App</string>
+
+    <!--
+        This is for profile xml string
+    -->
+    <string name="profile_security">安全设置</string>
+    <string name="profile_reset_pin">转换密码</string>
+    <string name="profile_email">电子邮箱</string>
+    <string name="profile_about">关于我们</string>
+
+    <!--
+        This is for miscellaneous string
+    -->
+    <string name="something_went_wrong">网络故障</string>
+    <string name="no_internet_connection">请连接网络</string>
+    <string name="exit_app">关闭</string>
+    <string name="loading_app">请稍等</string>
+    <string name="server_unavailable_right_now">支付平台出现故障，暂时无法连接。</string>
+    <string name="open_settings">打开设置</string>
+    <string name="try_again_dialog">请再试试！</string>
+    <string name="signout_app">退出</string>
+    <string name="logout_successful_app">成功退出</string>
+    <string name="button_no">取消</string>
+    <string name="button_yes">确定</string>
+    <string name="successful_dialog">完毕</string>
+    <string name="button_ok">确定</string>
+    <string name="confirm_cancel">确定取消?</string>
+    <string name="user_text">用户</string>
+    <string name="signed_in">成功登录</string>
+    <string name="welcomeing_user">欢迎...</string>
+    <string name="button_settings">设置</string>
+    <string name="double_pressed_back">再按一次退出</string>
+
+    <!--
+        This is for home fragment java string
+    -->
+    <string name="home_fragment_title">主页</string>
+
+    <!--
+    This is for intro activity java string
+    -->
+    <string name="login_activity_studentLogin">登录</string>
+    <string name="login_activity_user_signed_in">用户登录</string>
+    <string name="login_activity_authentication_failed">认证失败</string>
+    <string name="login_activity_closing_application">关闭</string>
+    <string name="login_activity_confirmation">确定?</string>
+    <string name="login_activity_failed">登录失败</string>
+
+    <!--
+   This is for main activity java string
+   -->
+    <string name="main_activity_confirmation">确定退出?</string>
+
+    <!--
+    This is for profile activity java string
+    -->
+    <string name="profile_activity_title">账户</string>
+    <string name="profile_activity_aboutHelp">关于与帮助</string>
+
+    <!--
+    This is for snackbar string
+    -->
+    <string name="Wifi_enabled">Wifi enabled</string>
+    <string name="Mobile_data_enabled">Mobile data enabled</string>
+    <string name="Not_connected_to_Internet">Not connected to Internet</string>
+    <string name="Internet_Connected">Internet Connected</string>
+    <string name="Lost_Internet_Connection">Lost Internet Connection</string>
+
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="title_activity_maps">Map</string>
+
+    <string name="eng">英文</string>
+    <string name="cn">中文</string>
+    <string name="multiLang">中文</string>
+    <string name="choose_language">选择语言</string>
+    <string name="googleSignIn">使用谷歌登入</string>
+    <string name="facebookSignIn">使用面子书登入</string>
+</resources>

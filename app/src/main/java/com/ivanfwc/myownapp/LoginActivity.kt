@@ -1,9 +1,12 @@
 package com.ivanfwc.myownapp
 
+import android.app.Activity
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
@@ -33,7 +36,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
-import com.google.android.gms.common.SignInButton
+import com.shobhitpuri.custombuttons.GoogleSignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
@@ -47,11 +50,10 @@ import com.google.firebase.auth.GoogleAuthProvider
 import org.json.JSONException
 import org.json.JSONObject
 
-import java.util.Arrays
-import java.util.Collections
 import java.util.concurrent.Callable
 
 import cn.pedant.SweetAlert.SweetAlertDialog
+import java.util.*
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
 
@@ -61,10 +63,11 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     internal lateinit var mGoogleSignInClient: GoogleSignInClient
     //And also a Firebase Auth object
     private var mAuth: FirebaseAuth? = null
-    internal lateinit var signInButton: SignInButton
+    internal lateinit var signInButton: GoogleSignInButton
     private val mProfileTracker: ProfileTracker? = null
     private var mAccessToken: AccessToken? = null
     internal var email_sign_in_button: Button? = null
+    internal lateinit var changeLang: Button
 
     internal var errorDialog: Dialog? = null
 
@@ -77,6 +80,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         // Make sure this is before calling super.onCreate
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
+        loadLocale()
         setContentView(R.layout.activity_login)
 
         mAccessToken = AccessToken.getCurrentAccessToken()
@@ -93,42 +97,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
                     handleFacebookAccessToken(loginResult.accessToken)
 
-                    /*String userLoginId = loginResult.getAccessToken().getUserId();
-                    Intent facebookIntent = new Intent(LoginActivity.this, MainActivity.class);
-                    Profile mProfile = Profile.getCurrentProfile();
-                    String firstName = mProfile.getFirstName();
-                    String lastName = mProfile.getLastName();
-                    String userId = mProfile.getId().toString();
-                    String profileImageUrl = mProfile.getProfilePictureUri(96, 96).toString();
-                    facebookIntent.putExtra(PROFILE_USER_ID, userId);
-                    facebookIntent.putExtra(PROFILE_FIRST_NAME, firstName);
-                    facebookIntent.putExtra(PROFILE_LAST_NAME, lastName);
-                    facebookIntent.putExtra(PROFILE_IMAGE_URL, profileImageUrl);
-                    startActivity(facebookIntent);
-                    finish();*/
-
-                    /*if(Profile.getCurrentProfile() == null) {
-                        mProfileTracker = new ProfileTracker() {
-                            @Override
-                            protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
-                                Log.v("facebook - profile", currentProfile.getFirstName());
-                                mProfileTracker.stopTracking();
-                            }
-                        };
-                        // no need to call startTracking() on mProfileTracker
-                        // because it is called by its constructor, internally.
-                    }
-                    else {
-                        Profile profile = Profile.getCurrentProfile();
-                        Log.v("facebook - profile", profile.getFirstName());
-                    }
-                    handleSignInResult(new Callable<Void>() {
-                        @Override
-                        public Void call() throws Exception {
-                            LoginManager.getInstance().logOut();
-                            return null;
-                        }
-                    });*/
                 }
 
                 override fun onCancel() {
@@ -159,22 +127,63 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         //google sign in intent
         signInButton = findViewById(R.id.sign_in_button)
 
-        signInButton.setSize(SignInButton.SIZE_WIDE)
+        //signInButton.setSize(SignInButton.SIZE_WIDE)
         signInButton.setOnClickListener(this)
+
+        changeLang = findViewById(R.id.bChangeLang)
+        changeLang.setOnClickListener(this)
 
         //findViewById(R.id.email_sign_in_button).setOnClickListener(this);
 
     }
 
-    /*private void checkInitialized() {
+    private fun showChangeLanguageDialog() {
+
+        var temporaryLocale = ""
+
+        val listItems = arrayOf(getString(R.string.eng), getString(R.string.cn))
+        val mBuilder = AlertDialog.Builder(this@LoginActivity)
+        mBuilder.setTitle(getString(R.string.choose_language))
+        mBuilder.setCancelable(false)
+        mBuilder.setSingleChoiceItems(listItems, -1) { dialogInterface, i ->
+
+            when (i) {
+                0 -> {
+                    temporaryLocale = "en"
+                }
+                1 -> {
+                    temporaryLocale = "zh"
+                }
+
+            }}.setPositiveButton(getString(R.string.button_ok)) { dialogInterface, i ->
+
+            setLocale(temporaryLocale)
+            recreate()
+            dialogInterface.dismiss()
+
+        }.setNegativeButton(getString(R.string.button_no)) { dialogInterface, i -> }
+
+        val mDialog = mBuilder.create()
+        mDialog.show()
     }
-    private void handleSignInResult(Object o) {
-        //Handle sign result here
-        Intent i = new Intent(LoginActivity.this, MainActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(i);
-        finish();
-    }*/
+
+    private fun setLocale(lang: String) {
+        val locale = Locale(lang)
+        Locale.setDefault(locale)
+        val config = Configuration()
+        config.locale = locale
+        baseContext.resources.updateConfiguration(config, baseContext.resources.displayMetrics)
+
+        val editor = getSharedPreferences("Settings", Context.MODE_PRIVATE).edit()
+        editor.putString("My_Lang", lang)
+        editor.apply()
+    }
+
+    private fun loadLocale() {
+        val prefs = getSharedPreferences("Settings", Activity.MODE_PRIVATE)
+        val language = prefs.getString("My_Lang", "")
+        setLocale(language)
+    }
 
     // [START auth_with_facebook]
     private fun handleFacebookAccessToken(token: AccessToken) {
@@ -477,11 +486,15 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     }
                     .show()
             }
+
         } else if (i == R.id.email_sign_in_button) {
             val intent = Intent(this, SignInActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             startActivity(intent)
             this.finish()
+
+        } else if (i == R.id.bChangeLang) {
+            showChangeLanguageDialog()
         }
     }
 
