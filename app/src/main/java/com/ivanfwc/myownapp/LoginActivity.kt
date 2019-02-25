@@ -3,18 +3,28 @@ package com.ivanfwc.myownapp
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
-import cn.pedant.SweetAlert.SweetAlertDialog
+
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
-import com.facebook.*
+import com.facebook.AccessToken
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.GraphRequest
+import com.facebook.GraphResponse
+import com.facebook.Profile
+import com.facebook.ProfileTracker
+import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -27,21 +37,31 @@ import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.*
+import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FacebookAuthProvider
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
+
 import org.json.JSONException
 import org.json.JSONObject
 
+import java.util.Arrays
 import java.util.Collections
+import java.util.concurrent.Callable
+
+import cn.pedant.SweetAlert.SweetAlertDialog
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
 
     private var mFacebookSignInButton: LoginButton? = null
     private var mFacebookCallbackManager: CallbackManager? = null
     //creating a GoogleSignInClient object
-    internal var mGoogleSignInClient: GoogleSignInClient
+    internal lateinit var mGoogleSignInClient: GoogleSignInClient
     //And also a Firebase Auth object
     private var mAuth: FirebaseAuth? = null
-    internal var signInButton: SignInButton
+    internal lateinit var signInButton: SignInButton
     private val mProfileTracker: ProfileTracker? = null
     private var mAccessToken: AccessToken? = null
     internal var email_sign_in_button: Button? = null
@@ -53,7 +73,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     internal var UserId: String? = null
     internal var fcm_token: String? = null
 
-    protected fun onCreate(savedInstanceState: Bundle) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         // Make sure this is before calling super.onCreate
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
@@ -66,57 +86,57 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         mFacebookSignInButton = findViewById(R.id.login_button)
         mFacebookSignInButton!!.setReadPermissions(listOf(EMAIL))
         mFacebookSignInButton!!.registerCallback(mFacebookCallbackManager,
-            object : FacebookCallback<LoginResult>() {
+            object : FacebookCallback<LoginResult> {
 
-                fun onSuccess(loginResult: LoginResult) {
+                override fun onSuccess(loginResult: LoginResult) {
                     //TODO: Use the Profile class to get information about the current user.
 
-                    handleFacebookAccessToken(loginResult.getAccessToken())
+                    handleFacebookAccessToken(loginResult.accessToken)
 
                     /*String userLoginId = loginResult.getAccessToken().getUserId();
-                        Intent facebookIntent = new Intent(LoginActivity.this, MainActivity.class);
-                        Profile mProfile = Profile.getCurrentProfile();
-                        String firstName = mProfile.getFirstName();
-                        String lastName = mProfile.getLastName();
-                        String userId = mProfile.getId().toString();
-                        String profileImageUrl = mProfile.getProfilePictureUri(96, 96).toString();
-                        facebookIntent.putExtra(PROFILE_USER_ID, userId);
-                        facebookIntent.putExtra(PROFILE_FIRST_NAME, firstName);
-                        facebookIntent.putExtra(PROFILE_LAST_NAME, lastName);
-                        facebookIntent.putExtra(PROFILE_IMAGE_URL, profileImageUrl);
-                        startActivity(facebookIntent);
-                        finish();*/
+                    Intent facebookIntent = new Intent(LoginActivity.this, MainActivity.class);
+                    Profile mProfile = Profile.getCurrentProfile();
+                    String firstName = mProfile.getFirstName();
+                    String lastName = mProfile.getLastName();
+                    String userId = mProfile.getId().toString();
+                    String profileImageUrl = mProfile.getProfilePictureUri(96, 96).toString();
+                    facebookIntent.putExtra(PROFILE_USER_ID, userId);
+                    facebookIntent.putExtra(PROFILE_FIRST_NAME, firstName);
+                    facebookIntent.putExtra(PROFILE_LAST_NAME, lastName);
+                    facebookIntent.putExtra(PROFILE_IMAGE_URL, profileImageUrl);
+                    startActivity(facebookIntent);
+                    finish();*/
 
                     /*if(Profile.getCurrentProfile() == null) {
-                            mProfileTracker = new ProfileTracker() {
-                                @Override
-                                protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
-                                    Log.v("facebook - profile", currentProfile.getFirstName());
-                                    mProfileTracker.stopTracking();
-                                }
-                            };
-                            // no need to call startTracking() on mProfileTracker
-                            // because it is called by its constructor, internally.
-                        }
-                        else {
-                            Profile profile = Profile.getCurrentProfile();
-                            Log.v("facebook - profile", profile.getFirstName());
-                        }
-                        handleSignInResult(new Callable<Void>() {
+                        mProfileTracker = new ProfileTracker() {
                             @Override
-                            public Void call() throws Exception {
-                                LoginManager.getInstance().logOut();
-                                return null;
+                            protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+                                Log.v("facebook - profile", currentProfile.getFirstName());
+                                mProfileTracker.stopTracking();
                             }
-                        });*/
+                        };
+                        // no need to call startTracking() on mProfileTracker
+                        // because it is called by its constructor, internally.
+                    }
+                    else {
+                        Profile profile = Profile.getCurrentProfile();
+                        Log.v("facebook - profile", profile.getFirstName());
+                    }
+                    handleSignInResult(new Callable<Void>() {
+                        @Override
+                        public Void call() throws Exception {
+                            LoginManager.getInstance().logOut();
+                            return null;
+                        }
+                    });*/
                 }
 
-                fun onCancel() {
+                override fun onCancel() {
                     //handleSignInResult(null);
                 }
 
-                fun onError(error: FacebookException) {
-                    Log.d(MainActivity::class.java.canonicalName, error.getMessage())
+                override fun onError(error: FacebookException) {
+                    Log.d(MainActivity::class.java.canonicalName, error.message)
                     //handleSignInResult(null);
                 }
             }
@@ -163,86 +183,79 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         showProgressDialog()
         // [END_EXCLUDE]
 
-        val credential = FacebookAuthProvider.getCredential(token.getToken())
+        val credential = FacebookAuthProvider.getCredential(token.token)
         mAuth!!.signInWithCredential(credential)
-            .addOnCompleteListener(this, object : OnCompleteListener<AuthResult>() {
-                fun onComplete(task: Task<AuthResult>) {
-                    if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "signInWithCredential:success")
-                        //FirebaseUser user = mAuth.getCurrentUser();
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "signInWithCredential:success")
+                    //FirebaseUser user = mAuth.getCurrentUser();
 
-                        ResponseCreator()
+                    ResponseCreator()
 
-                        /*// Facebook Email address
-                            GraphRequest request = GraphRequest.newMeRequest(
-                                    mAccessToken,
-                                    new GraphRequest.GraphJSONObjectCallback() {
-                                        @Override
-                                        public void onCompleted(
-                                                JSONObject object,
-                                                GraphResponse response) {
-                                            Log.v("LoginActivity Response ", response.toString());
-                                            try {
-                                                String Name = object.getString("name");
-                                                String FEmail = object.getString("email");
-                                                Log.v("Email = ", " " + FEmail);
-                                                Toast.makeText(getApplicationContext(), "Name " + Name, Toast.LENGTH_LONG).show();
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
-                                            }
+                    /*// Facebook Email address
+                        GraphRequest request = GraphRequest.newMeRequest(
+                                mAccessToken,
+                                new GraphRequest.GraphJSONObjectCallback() {
+                                    @Override
+                                    public void onCompleted(
+                                            JSONObject object,
+                                            GraphResponse response) {
+                                        Log.v("LoginActivity Response ", response.toString());
+                                        try {
+                                            String Name = object.getString("name");
+                                            String FEmail = object.getString("email");
+                                            Log.v("Email = ", " " + FEmail);
+                                            Toast.makeText(getApplicationContext(), "Name " + Name, Toast.LENGTH_LONG).show();
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
                                         }
-                                    });
-                            Bundle parameters = new Bundle();
-                            parameters.putString("fields", "name,email");
-                            request.setParameters(parameters);
-                            request.executeAsync();*/
+                                    }
+                                });
+                        Bundle parameters = new Bundle();
+                        parameters.putString("fields", "name,email");
+                        request.setParameters(parameters);
+                        request.executeAsync();*/
 
-                        val request = GraphRequest.newMeRequest(
-                            AccessToken.getCurrentAccessToken(),
-                            object : GraphRequest.GraphJSONObjectCallback() {
-                                fun onCompleted(`object`: JSONObject, response: GraphResponse) {
-                                    // Application code
+                    val request = GraphRequest.newMeRequest(
+                        AccessToken.getCurrentAccessToken()
+                    ) { `object`, response ->
+                        // Application code
 
-                                    val i = Intent(this@LoginActivity, MainActivity::class.java)
-                                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                    startActivity(i)
-                                    finish()
+                        val i = Intent(this@LoginActivity, MainActivity::class.java)
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(i)
+                        finish()
 
-                                    /*String Email = object.getString("email");
-                                String Name = object.getString("name");*/
-
-                                }
-                            })
-                        val parameters = Bundle()
-                        parameters.putString("fields", "email,name")
-                        request.setParameters(parameters)
-                        request.executeAsync()
-
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w(TAG, "signInWithCredential:failure", task.getException())
-                        Toast.makeText(
-                            this@LoginActivity, "Authentication failed.",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        /*String Email = object.getString("email");
+                            String Name = object.getString("name");*/
                     }
+                    val parameters = Bundle()
+                    parameters.putString("fields", "email,name")
+                    request.parameters = parameters
+                    request.executeAsync()
 
-                    // [START_EXCLUDE]
-                    hideProgressDialog()
-                    // [END_EXCLUDE]
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "signInWithCredential:failure", task.exception)
+                    Toast.makeText(this@LoginActivity, "Authentication failed.",
+                        Toast.LENGTH_SHORT).show()
                 }
-            })
+
+                // [START_EXCLUDE]
+                hideProgressDialog()
+                // [END_EXCLUDE]
+            }
     }
     // [END auth_with_facebook]
 
-    protected fun onStart() {
+    override fun onStart() {
         super.onStart()
 
         //if the user is already signed in
         //we will close this activity
         //and take the user to profile activity
-        if (mAuth!!.getCurrentUser() != null) {
+        if (mAuth!!.currentUser != null) {
             finish()
             startActivity(Intent(this, MainActivity::class.java))
         }
@@ -250,7 +263,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         //updateUI(currentUser);
     }
 
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         mFacebookCallbackManager!!.onActivityResult(requestCode, resultCode, data)
@@ -265,9 +278,9 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 val account = task.getResult(ApiException::class.java)
 
                 //authenticating with firebase
-                firebaseAuthWithGoogle(account)
+                firebaseAuthWithGoogle(account!!)
             } catch (e: ApiException) {
-                Toast.makeText(getApplicationContext(), R.string.login_activity_failed, Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, R.string.login_activity_failed, Toast.LENGTH_SHORT).show()
                 //Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 // Google Sign In failed, update UI appropriately
                 //Log.w(TAG, "Google sign in failed", e);
@@ -283,64 +296,55 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         showProgressDialog2()
 
         //getting the auth credential
-        val credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null)
+        val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
 
         //Now using firebase we are signing in the user here
         mAuth!!.signInWithCredential(credential)
-            .addOnCompleteListener(this, object : OnCompleteListener<AuthResult>() {
-                fun onComplete(task: Task<AuthResult>) {
-                    if (task.isSuccessful()) {
-                        ResponseCreator()
-                        //Log.d(TAG, "signInWithCredential:success");
-                        //FirebaseUser user = mAuth.getCurrentUser();
-                        //updateUI(user);
-                        //Toast.makeText(LoginActivity.this, user.getDisplayName() + " " + getString(R.string.signed_in), Toast.LENGTH_SHORT).show();
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    ResponseCreator()
+                    //Log.d(TAG, "signInWithCredential:success");
+                    //FirebaseUser user = mAuth.getCurrentUser();
+                    //updateUI(user);
+                    //Toast.makeText(LoginActivity.this, user.getDisplayName() + " " + getString(R.string.signed_in), Toast.LENGTH_SHORT).show();
 
-                        //sendRequest();
+                    //sendRequest();
 
-                        val i = Intent(this@LoginActivity, MainActivity::class.java)
-                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        startActivity(i)
-                        finish()
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        //Log.w(TAG, "signInWithCredential:failure", task.getException());
-                        Toast.makeText(
-                            this@LoginActivity,
-                            R.string.login_activity_authentication_failed,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        //updateUI(null);
-                    }
-                    hideProgressDialog()
-                    // ...
+                    val i = Intent(this@LoginActivity, MainActivity::class.java)
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(i)
+                    finish()
+                } else {
+                    // If sign in fails, display a message to the user.
+                    //Log.w(TAG, "signInWithCredential:failure", task.getException());
+                    Toast.makeText(this@LoginActivity, R.string.login_activity_authentication_failed, Toast.LENGTH_SHORT).show()
+                    //updateUI(null);
                 }
-            })
+                hideProgressDialog()
+                // ...
+            }
     }
 
     private fun ResponseCreator() {
-        val responseListener = object : Response.Listener<String>() {
-            fun onResponse(response: String) {
-                try {
+        val responseListener = Response.Listener<String> { response ->
+            try {
 
-                    val jsonResponse = JSONObject(response)
-                    val success = jsonResponse.getBoolean("success")
+                val jsonResponse = JSONObject(response)
+                val success = jsonResponse.getBoolean("success")
 
-                    if (success) {
+                if (success) {
 
-                    } else {
+                } else {
 
-                    }
-                } catch (e: JSONException) {
-                    e.printStackTrace()
                 }
-
+            } catch (e: JSONException) {
+                e.printStackTrace()
             }
         }
 
-        val confirmMatric = SetFirstTimeRequest(Name, Email, UserId, fcm_token, responseListener)
+        val confirmMatric = SetFirstTimeRequest(Name.toString(), Email.toString(), UserId.toString(), fcm_token, responseListener)
         //Toast.makeText(LoginActivity.this, user.getEmail().toString().trim(), Toast.LENGTH_SHORT).show();
-        val queue = Volley.newRequestQueue(getApplicationContext())
+        val queue = Volley.newRequestQueue(applicationContext)
         queue.add(confirmMatric)
     }
 
@@ -370,32 +374,32 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     //this method is called on click
     private fun signIn() {
         //getting the google signin intent
-        val signInIntent = mGoogleSignInClient.getSignInIntent()
+        val signInIntent = mGoogleSignInClient.signInIntent
 
         //starting the activity for result
         startActivityForResult(signInIntent, RC_SIGN_IN)
 
     }
 
-    fun onPause() {
+    public override fun onPause() {
         super.onPause()
 
         if (mProgressDialog2 != null) {
-            mProgressDialog2.dismiss()
+            mProgressDialog2!!.dismiss()
             mProgressDialog2 = null
         }
     }
 
-    fun onDestroy() {
+    public override fun onDestroy() {
         super.onDestroy()
 
         if (mProgressDialog2 != null) {
-            mProgressDialog2.dismiss()
+            mProgressDialog2!!.dismiss()
             mProgressDialog2 = null
         }
     }
 
-    fun onBackPressed() {
+    override fun onBackPressed() {
 
         SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
             .setTitleText(getString(R.string.login_activity_closing_application))
@@ -403,23 +407,18 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             .setCancelText(getString(R.string.button_no))
             .setConfirmText(getString(R.string.button_yes))
             .showCancelButton(true)
-            .setCancelClickListener(object : SweetAlertDialog.OnSweetClickListener() {
-                fun onClick(sDialog: SweetAlertDialog) {
-                    // reuse previous dialog instance, keep widget user state, reset them if you need
-                    sDialog.cancel()
-
-                }
-            })
-            .setConfirmClickListener(object : SweetAlertDialog.OnSweetClickListener() {
-                fun onClick(sDialog: SweetAlertDialog) {
-                    val intent = Intent(Intent.ACTION_MAIN)
-                    intent.addCategory(Intent.CATEGORY_HOME)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    startActivity(intent)
-                    finish()
-                    sDialog.dismiss()
-                }
-            })
+            .setCancelClickListener { sDialog ->
+                // reuse previous dialog instance, keep widget user state, reset them if you need
+                sDialog.cancel()
+            }
+            .setConfirmClickListener { sDialog ->
+                val intent = Intent(Intent.ACTION_MAIN)
+                intent.addCategory(Intent.CATEGORY_HOME)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+                finish()
+                sDialog.dismiss()
+            }
             .show()
     }
 
@@ -427,7 +426,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         val i = view.id
         if (i == R.id.sign_in_button) {
 
-            val cm = getApplicationContext().getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+            val cm = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
             var activeNetwork: NetworkInfo? = null
             if (cm != null) {
@@ -447,49 +446,40 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     .setConfirmText(getString(R.string.open_settings))
                     .setNeutralText(getString(R.string.try_again_dialog))
                     .showCancelButton(true)
-                    .setCancelClickListener(object : SweetAlertDialog.OnSweetClickListener() {
-                        fun onClick(sDialog: SweetAlertDialog) {
-                            this@LoginActivity.finish()
+                    .setCancelClickListener { sDialog ->
+                        this@LoginActivity.finish()
+                        sDialog.dismiss()
+                    }
+                    .setConfirmClickListener { sDialog ->
+                        startActivityForResult(Intent(android.provider.Settings.ACTION_SETTINGS), 0)
+                        sDialog.dismiss()
+                    }
+                    .setNeutralClickListener { sDialog ->
+                        val cm = this@LoginActivity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+                        var activeNetwork: NetworkInfo? = null
+                        if (cm != null) {
+                            activeNetwork = cm.activeNetworkInfo
+                        }
+                        //if (activeNetwork != null && activeNetwork.isConnectedOrConnecting() && cm.getActiveNetworkInfo().isAvailable() && cm.getActiveNetworkInfo().isConnected()) { // connected to the internet
+                        if (activeNetwork != null && activeNetwork!!.isConnected) { // connected to the internet
+                            mAuth = FirebaseAuth.getInstance()
+                            //FirebaseUser user = mAuth.getCurrentUser();
+                            applicationContext
                             sDialog.dismiss()
 
-                        }
-                    })
-                    .setConfirmClickListener(object : SweetAlertDialog.OnSweetClickListener() {
-                        fun onClick(sDialog: SweetAlertDialog) {
-                            startActivityForResult(Intent(android.provider.Settings.ACTION_SETTINGS), 0)
+                        } else {
+                            mAuth = FirebaseAuth.getInstance()
+                            //FirebaseUser user = mAuth.getCurrentUser();
+                            applicationContext
                             sDialog.dismiss()
                         }
-                    })
-                    .setNeutralClickListener(object : SweetAlertDialog.OnSweetClickListener() {
-                        fun onClick(sDialog: SweetAlertDialog) {
-
-                            val cm =
-                                this@LoginActivity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-                            var activeNetwork: NetworkInfo? = null
-                            if (cm != null) {
-                                activeNetwork = cm.activeNetworkInfo
-                            }
-                            //if (activeNetwork != null && activeNetwork.isConnectedOrConnecting() && cm.getActiveNetworkInfo().isAvailable() && cm.getActiveNetworkInfo().isConnected()) { // connected to the internet
-                            if (activeNetwork != null && activeNetwork!!.isConnected) { // connected to the internet
-                                mAuth = FirebaseAuth.getInstance()
-                                //FirebaseUser user = mAuth.getCurrentUser();
-                                getApplicationContext()
-                                sDialog.dismiss()
-
-                            } else {
-                                mAuth = FirebaseAuth.getInstance()
-                                //FirebaseUser user = mAuth.getCurrentUser();
-                                getApplicationContext()
-                                sDialog.dismiss()
-                            }
-                        }
-                    })
+                    }
                     .show()
             }
         } else if (i == R.id.email_sign_in_button) {
             val intent = Intent(this, SignInActivity::class.java)
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             startActivity(intent)
             this.finish()
         }

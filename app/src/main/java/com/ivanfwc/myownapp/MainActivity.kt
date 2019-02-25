@@ -24,17 +24,19 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.ivanfwc.myownapp.CheckConnectivity.getConnectivityStatusString
+import com.ivanfwc.myownapp.activities.MapsActivity
+import com.ivanfwc.myownapp.activities.ProfileActivity
 
 class MainActivity : AppCompatActivity() {
 
     private var drawerLayout: DrawerLayout? = null
     private var toolbar: Toolbar? = null
     private var drawerToggle: ActionBarDrawerToggle? = null
-    internal var mAuth: FirebaseAuth
+    internal lateinit var mAuth: FirebaseAuth
 
     private var linearLayout: LinearLayout? = null
     private var internetConnected = true
-    internal var snackbar: Snackbar
+    internal lateinit var snackbar: Snackbar
 
     /**
      * Runtime Broadcast receiver inner class to capture internet connectivity events
