@@ -85,6 +85,6 @@
     <string name="cn">Chinese</string>
     <string name="multiLang">EN</string>
     <string name="choose_language">Choose language</string>
-    <string name="googleSignIn">Sign in With Google</string>
-    <string name="facebookSignIn">Sign in with Facebook</string>
+    <string name="googleSignIn">Google</string>
+    <string name="facebookSignIn">Facebook</string>
 </resources>

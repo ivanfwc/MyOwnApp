@@ -76,6 +76,6 @@
     <string name="cn">中文</string>
     <string name="multiLang">中文</string>
     <string name="choose_language">选择语言</string>
-    <string name="googleSignIn">使用谷歌登入</string>
-    <string name="facebookSignIn">使用面子书登入</string>
+    <string name="googleSignIn">谷歌</string>
+    <string name="facebookSignIn">面子书</string>
 </resources>

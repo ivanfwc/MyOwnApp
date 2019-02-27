@@ -53,6 +53,7 @@ import org.json.JSONObject
 import java.util.concurrent.Callable
 
 import cn.pedant.SweetAlert.SweetAlertDialog
+import kotlinx.android.synthetic.main.activity_login.*
 import java.util.*
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
@@ -68,6 +69,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     private var mAccessToken: AccessToken? = null
     internal var email_sign_in_button: Button? = null
     internal lateinit var changeLang: Button
+    internal lateinit var fb: Button
 
     internal var errorDialog: Dialog? = null
 
@@ -88,6 +90,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         //facebook
         mFacebookCallbackManager = CallbackManager.Factory.create()
         mFacebookSignInButton = findViewById(R.id.login_button)
+        fb = findViewById(R.id.fb)
         mFacebookSignInButton!!.setReadPermissions(listOf(EMAIL))
         mFacebookSignInButton!!.registerCallback(mFacebookCallbackManager,
             object : FacebookCallback<LoginResult> {
@@ -201,30 +204,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     //FirebaseUser user = mAuth.getCurrentUser();
 
                     ResponseCreator()
-
-                    /*// Facebook Email address
-                        GraphRequest request = GraphRequest.newMeRequest(
-                                mAccessToken,
-                                new GraphRequest.GraphJSONObjectCallback() {
-                                    @Override
-                                    public void onCompleted(
-                                            JSONObject object,
-                                            GraphResponse response) {
-                                        Log.v("LoginActivity Response ", response.toString());
-                                        try {
-                                            String Name = object.getString("name");
-                                            String FEmail = object.getString("email");
-                                            Log.v("Email = ", " " + FEmail);
-                                            Toast.makeText(getApplicationContext(), "Name " + Name, Toast.LENGTH_LONG).show();
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                });
-                        Bundle parameters = new Bundle();
-                        parameters.putString("fields", "name,email");
-                        request.setParameters(parameters);
-                        request.executeAsync();*/
 
                     val request = GraphRequest.newMeRequest(
                         AccessToken.getCurrentAccessToken()
@@ -495,6 +474,9 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
         } else if (i == R.id.bChangeLang) {
             showChangeLanguageDialog()
+
+        } else if (i == R.id.fb) {
+            mFacebookSignInButton!!.performClick()
         }
     }
 
