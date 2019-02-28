@@ -70,6 +70,9 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     internal var email_sign_in_button: Button? = null
     internal lateinit var changeLang: Button
     internal lateinit var fb: Button
+    internal lateinit var mlm: Button
+    internal lateinit var wechat: Button
+    internal lateinit var weibo: Button
 
     internal var errorDialog: Dialog? = null
 
@@ -135,6 +138,17 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
         changeLang = findViewById(R.id.bChangeLang)
         changeLang.setOnClickListener(this)
+
+        wechat = findViewById(R.id.bwechat)
+        wechat.setOnClickListener(this)
+        wechat.setVisibility(View.GONE)
+
+        weibo = findViewById(R.id.bweibo)
+        weibo.setOnClickListener(this)
+        weibo.setVisibility(View.GONE)
+
+        mlm = findViewById(R.id.bmlm)
+        mlm.setOnClickListener(this)
 
         //findViewById(R.id.email_sign_in_button).setOnClickListener(this);
 
@@ -477,6 +491,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
         } else if (i == R.id.fb) {
             mFacebookSignInButton!!.performClick()
+
+        } else if (i == R.id.bmlm) {
+            wechat.setVisibility(View.VISIBLE)
+            weibo.setVisibility(View.VISIBLE)
         }
     }
 

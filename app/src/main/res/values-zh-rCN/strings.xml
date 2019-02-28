@@ -78,4 +78,7 @@
     <string name="choose_language">选择语言</string>
     <string name="googleSignIn">谷歌</string>
     <string name="facebookSignIn">面子书</string>
+    <string name="wechatSignIn">微信</string>
+    <string name="weiboSignIn">微博</string>
+    <string name="more_login_method">更多登录方法</string>
 </resources>

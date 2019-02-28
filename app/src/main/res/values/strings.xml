@@ -87,4 +87,7 @@
     <string name="choose_language">Choose language</string>
     <string name="googleSignIn">Google</string>
     <string name="facebookSignIn">Facebook</string>
+    <string name="wechatSignIn">WeChat</string>
+    <string name="weiboSignIn">Weibo</string>
+    <string name="more_login_method">More login methods</string>
 </resources>
