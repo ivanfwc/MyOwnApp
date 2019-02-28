@@ -19,152 +19,201 @@
             android:background="@null"
             android:textColor="@android:color/white"/>
 
+
+    <!--<ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+
+        </LinearLayout>
+    </ScrollView>-->
+
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:gravity="center"
-            android:padding="50dp">
+            android:layout_weight="1">
 
-        <FrameLayout
-                android:id="@+id/FrameLayout1"
+        <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:id="@+id/imageView"
+                android:layout_gravity="center"
+                android:background="@drawable/background_poly"
+                android:layout_marginTop="100dp"
+                android:layout_marginBottom="50dp"/>
+
+        <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:scrollbars="none">
 
-            <com.facebook.login.widget.LoginButton
-                    android:id="@+id/login_button"
-                    style="@style/FacebookLoginButton"
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    namespace:com_facebook_login_text="@string/facebookSignIn"
-                    android:layout_margin="10dp"
-                    android:paddingTop="15dp"
-                    android:background="@drawable/mybutton"
-                    android:visibility="gone"/>
+                    android:orientation="vertical">
 
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:id="@+id/fb"
-                    android:textAllCaps="false"
-                    android:text="@string/facebookSignIn"
-                    android:textSize="14sp"
-                    android:textColor="@color/black"
-                    android:onClick="onClick"
-                    android:background="@drawable/mybutton"
-                    android:drawableStart="@drawable/fb_art_copy"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:paddingLeft="80dp"
-                    android:paddingRight="80dp"/>
+                <FrameLayout
+                        android:id="@+id/FrameLayout1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="32dp"
+                        android:paddingRight="32dp"
+                        android:layout_marginTop="50dp">
 
-        </FrameLayout>
+                    <com.facebook.login.widget.LoginButton
+                            android:id="@+id/login_button"
+                            style="@style/FacebookLoginButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            namespace:com_facebook_login_text="@string/facebookSignIn"
+                            android:layout_margin="10dp"
+                            android:paddingTop="15dp"
+                            android:background="@drawable/mybutton"
+                            android:visibility="gone"/>
 
-        <FrameLayout
-                android:id="@+id/FrameLayout2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                    <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:id="@+id/fb"
+                            android:textAllCaps="false"
+                            android:text="@string/facebookSignIn"
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            android:onClick="onClick"
+                            android:background="@drawable/mybutton"
+                            android:drawableStart="@drawable/fb_art_copy"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:paddingLeft="90dp"
+                            android:paddingRight="90dp"/>
 
-            <com.shobhitpuri.custombuttons.GoogleSignInButton
-                    android:id="@+id/sign_in_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:layout_margin="10dp"
-                    android:text="@string/googleSignIn"
-                    android:textSize="30sp"
-                    android:visibility="gone"/>
+                </FrameLayout>
 
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:id="@+id/gs"
-                    android:textAllCaps="false"
-                    android:text="@string/googleSignIn"
-                    android:textSize="14sp"
-                    android:textColor="@color/black"
-                    android:background="@drawable/mybutton"
-                    android:drawableStart="@drawable/new_google_favicon_512_copy"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:paddingLeft="80dp"
-                    android:paddingRight="80dp"/>
+                <FrameLayout
+                        android:id="@+id/FrameLayout2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="32dp"
+                        android:paddingRight="32dp"
+                        android:layout_marginTop="32dp">
 
-        </FrameLayout>
+                    <com.shobhitpuri.custombuttons.GoogleSignInButton
+                            android:id="@+id/sign_in_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:layout_margin="10dp"
+                            android:text="@string/googleSignIn"
+                            android:textSize="30sp"
+                            android:visibility="gone"/>
 
-        <FrameLayout
-                android:id="@+id/FrameLayout3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                    <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:id="@+id/gs"
+                            android:textAllCaps="false"
+                            android:text="@string/googleSignIn"
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            android:onClick="onClick"
+                            android:background="@drawable/mybutton"
+                            android:drawableStart="@drawable/new_google_favicon_512_copy"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:paddingLeft="90dp"
+                            android:paddingRight="90dp"/>
 
-            <!--<com.shobhitpuri.custombuttons.GoogleSignInButton
-                    android:id="@+id/sign_in_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:layout_margin="10dp"
-                    android:text="@string/googleSignIn"
-                    android:textSize="30sp"
-                    android:visibility="gone"/>-->
+                </FrameLayout>
 
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:id="@+id/bwechat"
-                    android:textAllCaps="false"
-                    android:text="@string/wechatSignIn"
-                    android:textSize="14sp"
-                    android:textColor="@color/black"
-                    android:background="@drawable/mybutton"
-                    android:drawableStart="@drawable/fb_art"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:paddingLeft="80dp"
-                    android:paddingRight="80dp"/>
+                <FrameLayout
+                        android:id="@+id/FrameLayout3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="32dp"
+                        android:paddingRight="32dp"
+                        android:layout_marginTop="32dp">
 
-        </FrameLayout>
+                    <!--<com.shobhitpuri.custombuttons.GoogleSignInButton
+                            android:id="@+id/sign_in_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:layout_margin="10dp"
+                            android:text="@string/googleSignIn"
+                            android:textSize="30sp"
+                            android:visibility="gone"/>-->
 
-        <FrameLayout
-                android:id="@+id/FrameLayout4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                    <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:id="@+id/bwechat"
+                            android:textAllCaps="false"
+                            android:text="@string/wechatSignIn"
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            android:background="@drawable/mybutton"
+                            android:drawableStart="@drawable/fb_art"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:paddingLeft="90dp"
+                            android:paddingRight="90dp"/>
 
-            <!--<com.shobhitpuri.custombuttons.GoogleSignInButton
-                    android:id="@+id/sign_in_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:layout_margin="10dp"
-                    android:text="@string/googleSignIn"
-                    android:textSize="30sp"
-                    android:visibility="gone"/>-->
+                </FrameLayout>
 
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:id="@+id/bweibo"
-                    android:textAllCaps="false"
-                    android:text="@string/weiboSignIn"
-                    android:textSize="14sp"
-                    android:textColor="@color/black"
-                    android:background="@drawable/mybutton"
-                    android:drawableStart="@drawable/fb_art_copy_2"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:paddingLeft="80dp"
-                    android:paddingRight="80dp"/>
+                <FrameLayout
+                        android:id="@+id/FrameLayout4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="32dp"
+                        android:paddingRight="32dp"
+                        android:layout_marginTop="32dp">
 
-        </FrameLayout>
+                    <!--<com.shobhitpuri.custombuttons.GoogleSignInButton
+                            android:id="@+id/sign_in_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:layout_margin="10dp"
+                            android:text="@string/googleSignIn"
+                            android:textSize="30sp"
+                            android:visibility="gone"/>-->
 
-        <Button
-                android:id="@+id/bmlm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/more_login_method"
-                android:background="@null"
-                android:textAllCaps="false"
-                android:layout_marginTop="20dp"
-                android:textColor="@color/white"/>
+                    <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:id="@+id/bweibo"
+                            android:textAllCaps="false"
+                            android:text="@string/weiboSignIn"
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            android:background="@drawable/mybutton"
+                            android:drawableStart="@drawable/fb_art_copy_2"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:paddingLeft="90dp"
+                            android:paddingRight="90dp"/>
 
+                </FrameLayout>
+
+                <Button
+                        android:id="@+id/bmlm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/more_login_method"
+                        android:background="@null"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center"/>
+
+
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 </LinearLayout>

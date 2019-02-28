@@ -67,9 +67,9 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     internal lateinit var signInButton: GoogleSignInButton
     private val mProfileTracker: ProfileTracker? = null
     private var mAccessToken: AccessToken? = null
-    internal var email_sign_in_button: Button? = null
     internal lateinit var changeLang: Button
     internal lateinit var fb: Button
+    internal lateinit var gs: Button
     internal lateinit var mlm: Button
     internal lateinit var wechat: Button
     internal lateinit var weibo: Button
@@ -132,6 +132,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         //and inside onClick() method we are calling the signIn() method that will open
         //google sign in intent
         signInButton = findViewById(R.id.sign_in_button)
+        gs = findViewById(R.id.gs)
 
         //signInButton.setSize(SignInButton.SIZE_WIDE)
         signInButton.setOnClickListener(this)
@@ -428,6 +429,13 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         val i = view.id
         if (i == R.id.sign_in_button) {
 
+
+
+        } else if (i == R.id.bChangeLang) {
+            showChangeLanguageDialog()
+
+        } else if (i == R.id.fb) {
+
             val cm = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
             var activeNetwork: NetworkInfo? = null
@@ -436,6 +444,60 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             }
             //if (activeNetwork != null && activeNetwork.isConnectedOrConnecting() && cm.getActiveNetworkInfo().isAvailable() && cm.getActiveNetworkInfo().isConnected()) { // connected to the internet
             if (activeNetwork != null && activeNetwork.isConnected) { // connected to the internet
+
+                mFacebookSignInButton!!.performClick()
+
+            } else {
+
+                SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText(getString(R.string.something_went_wrong))
+                    .setContentText(getString(R.string.no_internet_connection))
+                    .setCancelText(getString(R.string.exit_app))
+                    .setConfirmText(getString(R.string.open_settings))
+                    .setNeutralText(getString(R.string.try_again_dialog))
+                    .showCancelButton(true)
+                    .setCancelClickListener { sDialog ->
+                        this@LoginActivity.finish()
+                        sDialog.dismiss()
+                    }
+                    .setConfirmClickListener { sDialog ->
+                        startActivityForResult(Intent(android.provider.Settings.ACTION_SETTINGS), 0)
+                        sDialog.dismiss()
+                    }
+                    .setNeutralClickListener { sDialog ->
+                        val cm = this@LoginActivity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+                        var activeNetwork: NetworkInfo? = null
+                        if (cm != null) {
+                            activeNetwork = cm.activeNetworkInfo
+                        }
+                        //if (activeNetwork != null && activeNetwork.isConnectedOrConnecting() && cm.getActiveNetworkInfo().isAvailable() && cm.getActiveNetworkInfo().isConnected()) { // connected to the internet
+                        if (activeNetwork != null && activeNetwork!!.isConnected) { // connected to the internet
+                            mAuth = FirebaseAuth.getInstance()
+                            //FirebaseUser user = mAuth.getCurrentUser();
+                            applicationContext
+                            sDialog.dismiss()
+
+                        } else {
+                            mAuth = FirebaseAuth.getInstance()
+                            //FirebaseUser user = mAuth.getCurrentUser();
+                            applicationContext
+                            sDialog.dismiss()
+                        }
+                    }
+                    .show()
+            }
+
+        } else if (i == R.id.gs) {
+            signInButton.performClick()
+            val cm = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+            var activeNetwork: NetworkInfo? = null
+            if (cm != null) {
+                activeNetwork = cm.activeNetworkInfo
+            }
+            //if (activeNetwork != null && activeNetwork.isConnectedOrConnecting() && cm.getActiveNetworkInfo().isAvailable() && cm.getActiveNetworkInfo().isConnected()) { // connected to the internet
+            if (activeNetwork != null && activeNetwork!!.isConnected) { // connected to the internet
 
                 signIn()
 
@@ -480,21 +542,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     .show()
             }
 
-        } else if (i == R.id.email_sign_in_button) {
-            val intent = Intent(this, SignInActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            startActivity(intent)
-            this.finish()
-
-        } else if (i == R.id.bChangeLang) {
-            showChangeLanguageDialog()
-
-        } else if (i == R.id.fb) {
-            mFacebookSignInButton!!.performClick()
-
         } else if (i == R.id.bmlm) {
             wechat.setVisibility(View.VISIBLE)
             weibo.setVisibility(View.VISIBLE)
+            mlm.setVisibility(View.GONE)
         }
     }
 
