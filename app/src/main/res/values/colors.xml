@@ -65,4 +65,5 @@
     </integer-array>
 
     <color name="indicator">#ecd95a</color>
+    <color name="colorFAB1">#2196F3</color>
 </resources>

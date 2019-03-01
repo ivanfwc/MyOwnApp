@@ -95,4 +95,19 @@
     <string name="imusing">I am using</string>
     <string name="prepaid">Prepaid</string>
     <string name="postpaid">Postpaid</string>
+    <string name="impaying">I am paying</string>
+    <string name="monthly">Monthly</string>
+    <string name="weekly">Weekly</string>
+    <string name="daily">Daily</string>
+    <string name="formobiledata">For a mobile data of</string>
+    <string name="unlimited">Unlimited</string>
+    <string name="next">NEXT</string>
+    <string name="youpaying">You are paying</string>
+    <string name="saveupto">Save up to</string>
+    <string name="whenyouconnect">when you connect to Simplify hotspot</string>
+    <string name="avgrate">Average rate:</string>
+    <string name="haveinvitecode">Have an invite code?</string>
+    <string name="entercode">Enter code here</string>
+    <string name="youreallsetupup">You\'re all set up!</string>
+    <string name="awesome">Awesome! Here\'s FREE 1GB mobile data for you to kickstart!</string>
 </resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical" android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="32dp"
+              android:layout_marginRight="32dp">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="26sp"
+            android:textColor="#ffffff"
+            android:lineSpacingExtra="-4sp"
+            android:text="@string/haveinvitecode" />
+
+    <EditText
+            android:id="@+id/edt_reg_name"
+            style="@style/edt_text_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/entercode"
+            android:textColorHighlight="@color/colorFAB1"
+            android:textColorLink="@color/white"/>
+
+</LinearLayout>

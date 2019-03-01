@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_gradient">
+
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:minHeight="?attr/actionBarSize"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="32dp"
+            android:orientation="vertical">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/titlemobileplan"
+                android:textColor="@color/white"
+                android:textSize="26sp"
+                android:layout_marginEnd="77dp"
+                android:layout_marginTop="20dp"/>
+
+        <android.support.design.card.MaterialCardView
+                android:layout_width="350dp"
+                android:layout_height="104dp"
+                android:layout_marginTop="38dp"
+                android:layout_gravity="center"
+                app:cardCornerRadius="6dp"
+                android:elevation="0dp"
+                android:paddingStart="32dp"
+                android:paddingEnd="32dp">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|top"
+                        android:text="@string/youpaying"
+                        android:textColor="#424242"
+                        android:textSize="14sp"
+                        android:layout_marginTop="16dp"/>
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|top"
+                        android:text="MYR 0.80 / MB"
+                        android:textColor="#424242"
+                        android:textSize="16sp"
+                        android:layout_marginTop="16dp"
+                        android:textStyle="bold"/>
+
+            </LinearLayout>
+        </android.support.design.card.MaterialCardView>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/saveupto"
+                android:textColor="@color/white"
+                android:layout_marginTop="33dp"
+                android:textSize="14sp"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="30 %"
+                android:textColor="@color/white"
+                android:layout_marginTop="7dp"
+                android:textSize="26sp"/>
+
+        <ProgressBar
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                style="@style/MyProgressBar"
+                android:indeterminate="false"
+                android:progress="30"
+                android:max="100"
+                android:layout_marginTop="14dp"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/whenyouconnect"
+                android:textColor="@color/white"
+                android:layout_marginTop="12dp"
+                android:textSize="12sp"/>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="16dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/avgrate"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"/>
+
+            <TextView
+                    android:id="@+id/avgRate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    android:text="MYR 0.50 / MB"/>
+
+        </LinearLayout>
+
+        <!--<LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <Button
+                    android:layout_gravity="bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/next"
+                    android:background="@drawable/mybutton"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_marginTop="24dp"
+                    android:textColor="#2196f3"/>
+
+        </LinearLayout>-->
+
+    </LinearLayout>
+</LinearLayout>
