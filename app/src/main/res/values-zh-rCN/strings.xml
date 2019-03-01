@@ -81,4 +81,9 @@
     <string name="wechatSignIn">微信</string>
     <string name="weiboSignIn">微博</string>
     <string name="more_login_method">更多登录方法</string>
+    <string name="titlemobileplan">Current mobile plan</string>
+    <string name="analyseplan">We will analyse your mobile data plan and explain how Simplify can save or earn you more.</string>
+    <string name="imusing">I am using</string>
+    <string name="prepaid">Prepaid</string>
+    <string name="postpaid">Postpaid</string>
 </resources>
