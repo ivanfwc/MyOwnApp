@@ -101,4 +101,7 @@
     <string name="entercode">Enter code here</string>
     <string name="youreallsetupup">You\'re all set up!</string>
     <string name="awesome">Awesome! Here\'s FREE 1GB mobile data for you to kickstart!</string>
+    <string name="letsstart">LET\'S START</string>
+    <string name="waive">Waive your mobile plan cost when you sell</string>
+    <string name="attheprice">at the price of</string>
 </resources>

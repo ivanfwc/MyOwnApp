@@ -19,17 +19,18 @@ class profileRegister: AppCompatActivity() {
         Toast.makeText(this, "hi", Toast.LENGTH_SHORT).show()
         supportActionBar?.hide()
         view_pager_register.adapter = CustomPagerAdapter(this)
-        btn_next.setOnClickListener {
+        /*btn_next.setOnClickListener {
             view_pager_register.currentItem = view_pager_register.currentItem + 1
-        }
+        }*/
     }
 }
 
 enum class CustomPagerEnum constructor(val titleResId: Int, val layoutResId: Int) {
 
     RED(1, R.layout.activity_profile_buyer),
-    BLUE(2, R.layout.activity_profile_buyer2);
-    //GREEN(3, R.layout.sim_register_get_name);
+    BLUE(2, R.layout.activity_profile_buyer2),
+    GREEN(3, R.layout.activity_profile_buyer3),
+    WHITE(4, R.layout.activity_profile_buyer4);
 
     private var mTitleResId: Int = titleResId
     private var mLayoutResId: Int = layoutResId

@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical" android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="32dp"
-              android:layout_marginRight="32dp">
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:padding="32dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
     <TextView
             android:layout_width="wrap_content"
@@ -13,13 +19,46 @@
             android:lineSpacingExtra="-4sp"
             android:text="@string/haveinvitecode" />
 
-    <EditText
+    <!--<EditText
             android:id="@+id/edt_reg_name"
             style="@style/edt_text_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/entercode"
             android:textColorHighlight="@color/colorFAB1"
-            android:textColorLink="@color/white"/>
+            android:textColorLink="@color/white"/>-->
+
+    <android.support.design.widget.TextInputLayout
+            android:id="@+id/text_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true"
+            android:layout_marginTop="72dp">
+
+        <android.support.design.widget.TextInputEditText
+                android:id="@+id/edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/entercode"
+                android:textColorHint="@color/white"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <Button
+                android:layout_gravity="bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/next"
+                android:background="@drawable/mybutton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_marginTop="24dp"
+                android:textColor="#2196f3"
+                android:textStyle="bold"/>
+
+    </LinearLayout>
 
 </LinearLayout>
