@@ -7,6 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 28
     defaultConfig {
+        multiDexEnabled true
         applicationId "com.ivanfwc.myownapp"
         minSdkVersion 17
         targetSdkVersion 28
@@ -55,6 +56,8 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
     testImplementation 'junit:junit:4.12'
     implementation 'com.skyfishjy.ripplebackground:library:1.0.1'
+    implementation "com.andkulikov:transitionseverywhere:1.8.1"
+
 }
 apply plugin: 'com.google.gms.google-services'
 

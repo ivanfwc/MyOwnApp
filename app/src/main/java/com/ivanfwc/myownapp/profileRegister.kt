@@ -9,6 +9,7 @@ import android.support.v4.view.PagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlinx.android.synthetic.main.activity_profile_buyer.*
 import kotlinx.android.synthetic.main.sim_register_main.*
 
 class profileRegister: AppCompatActivity() {
@@ -19,9 +20,9 @@ class profileRegister: AppCompatActivity() {
         Toast.makeText(this, "hi", Toast.LENGTH_SHORT).show()
         supportActionBar?.hide()
         view_pager_register.adapter = CustomPagerAdapter(this)
-        /*btn_next.setOnClickListener {
+        btn_next.setOnClickListener {
             view_pager_register.currentItem = view_pager_register.currentItem + 1
-        }*/
+        }
     }
 }
 

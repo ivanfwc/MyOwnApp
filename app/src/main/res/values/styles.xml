@@ -140,4 +140,9 @@
         <item name="android:radius">52dp</item>
     </style>
 
+    <style name="sim_button_1">
+        <item name="android:textSize">14sp</item>
+        <item name="android:background">@drawable/mybutton</item>
+    </style>
+
 </resources>

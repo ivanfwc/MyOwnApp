@@ -1,73 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:background="@drawable/background_gradient"
-    android:theme="@style/Theme.Shrine">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/transparent"
-        android:minHeight="?attr/actionBarSize"/>
-
-    <LinearLayout
-        android:orientation="vertical"
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="24dp"
-        android:layout_marginTop="27dp">
+        android:background="@drawable/background_gradient"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        android:theme="@style/Theme.Shrine">
 
-        <!--<include layout="@layout/sim_register_get_name"/>-->
+    <ImageButton
+            android:id="@+id/imageButton4"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/ic_back_button"
+            android:backgroundTint="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <FrameLayout
+    <!--<android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:minHeight="?attr/actionBarSize"/>-->
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/view_pager_register"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+    <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager_register"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="57dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/btn_next"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageButton4" />
 
-            <!--<android.support.design.button.MaterialButton
-                android:id="@+id/btn_prev"
-                style="@style/Widget.MaterialComponents.Button"
-                android:layout_width="match_parent"
-                android:layout_height="58dp"
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="32dp"
-                android:layout_marginRight="32dp"
-                android:layout_marginBottom="70dp"
-                android:text="Next" />
+    <android.support.design.button.MaterialButton
+            android:id="@+id/btn_next"
+            style="@style/sim_button_1"
+            android:layout_width="0dp"
+            android:layout_height="58dp"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="24dp"
+            android:text="@string/next"
+            android:textColor="@color/sim_colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_pager_register"
+            app:rippleColor="@color/colorAccent"/>
 
-            <android.support.design.button.MaterialButton
-                android:id="@+id/btn_next"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="match_parent"
-                android:layout_height="58dp"
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="32dp"
-                android:layout_marginRight="32dp"
-                android:layout_marginBottom="10dp"
-                android:text="Next" />-->
 
-            <!--<Button-->
-                <!--android:id="@+id/btn_next"-->
-                <!--style="@style/Widget.AppCompat.Button.Colored"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="58dp"-->
-                <!--android:layout_gravity="bottom"-->
-                <!--android:layout_marginLeft="32dp"-->
-                <!--android:layout_marginRight="32dp"-->
-                <!--android:layout_marginBottom="10dp"-->
-                <!--android:text="@string/bt_next"-->
-                <!--android:theme="@style/AppTheme.WhiteButton"/>-->
-        </FrameLayout>
-
-    </LinearLayout>
-
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

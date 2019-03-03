@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 
@@ -53,6 +54,7 @@ import org.json.JSONObject
 import java.util.concurrent.Callable
 
 import cn.pedant.SweetAlert.SweetAlertDialog
+import com.transitionseverywhere.TransitionManager
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.*
 
@@ -87,6 +89,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         loadLocale()
         setContentView(R.layout.activity_login)
+
+        val transitionsContainer = findViewById<View>(R.id.transitions_container) as ViewGroup
 
         mAccessToken = AccessToken.getCurrentAccessToken()
 
@@ -148,8 +152,22 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         weibo.setOnClickListener(this)
         weibo.setVisibility(View.GONE)
 
-        mlm = findViewById(R.id.bmlm)
-        mlm.setOnClickListener(this)
+        mlm = transitionsContainer.findViewById<View>(R.id.bmlm) as Button
+        //mlm.setOnClickListener(this)
+
+        mlm.setOnClickListener(object : View.OnClickListener {
+
+            internal var visible: Boolean = false
+
+            override fun onClick(v: View) {
+                TransitionManager.beginDelayedTransition(transitionsContainer)
+                visible = !visible
+                wechat.visibility = if (visible) View.VISIBLE else View.GONE
+                weibo.visibility = if (visible) View.VISIBLE else View.GONE
+                mlm.visibility = if (!visible) View.VISIBLE else View.GONE
+            }
+
+        })
 
         //findViewById(R.id.email_sign_in_button).setOnClickListener(this);
 
@@ -225,7 +243,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     ) { `object`, response ->
                         // Application code
 
-                        val i = Intent(this@LoginActivity, MainActivity::class.java)
+                        val i = Intent(this@LoginActivity, profileRegister::class.java)
                         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(i)
                         finish()
@@ -260,7 +278,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         //and take the user to profile activity
         if (mAuth!!.currentUser != null) {
             finish()
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, profileRegister::class.java))
         }
         //FirebaseUser currentUser = mAuth.getCurrentUser();
         //updateUI(currentUser);
@@ -427,6 +445,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
     override fun onClick(view: View) {
         val i = view.id
+        var visible: Boolean = false
         if (i == R.id.sign_in_button) {
 
 
@@ -543,9 +562,11 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             }
 
         } else if (i == R.id.bmlm) {
+            /*TransitionManager.beginDelayedTransition(transitionsContainer)
+            visible = !visible
             wechat.setVisibility(View.VISIBLE)
             weibo.setVisibility(View.VISIBLE)
-            mlm.setVisibility(View.GONE)
+            mlm.setVisibility(View.GONE)*/
         }
     }
 

@@ -66,4 +66,5 @@
 
     <color name="indicator">#ecd95a</color>
     <color name="colorFAB1">#2196F3</color>
+    <color name="sim_colorAccent">#2979FF</color>
 </resources>
